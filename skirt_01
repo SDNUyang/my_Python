@@ -1,0 +1,62 @@
+import sys
+import pygame
+import random
+from pygame.locals import *
+
+class Game():
+    def __init__(self):
+        # 设置屏幕是宽和高
+        self.width = 640
+        self.height = 640
+        # 设置屏幕和标题
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption('滑雪游戏')
+        # 设置字体
+        self.t_font = pygame.font.Font('font/simkai.ttf', self.width//4)
+        self.c_font = pygame.font.Font('font/simkai.ttf', self.width//20)
+        # 设置颜色
+        self.WHITE = (255, 255, 255)
+        self.RED = (255, 0, 0)
+        self.BLUE = (0, 0, 255)
+        #设置音乐
+        self.bgm_path = "music/bg_music.mp3"
+        self.vol = 0.5
+        self.loops = -1
+    def start(self):
+        # 给屏幕填充白色
+        self.screen.fill(self.WHITE)
+        # 绘制游戏标题
+        title = self.t_font.render('滑雪游戏', True, self.RED)
+        t_rect = title.get_rect()
+        t_rect.midtop = (self.width/2, self.height/10)
+        self.screen.blit(title, t_rect)
+        # 绘制提示内容
+        content = self.c_font.render('按任意键开始游戏', True, self.BLUE)
+        c_rect = content.get_rect()
+        c_rect.midtop = (self.width/2, self.height/2)
+        self.screen.blit(content, c_rect)
+        pygame.display.update()
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    return
+    def main(self):
+        #加载背景音乐
+        pygame.mixer.init()
+        pygame.mixer.music.load(self.bgm_path)
+        pygame.mixer.music.set_volume(self.vol)
+        pygame.mixer.music.play(self.loops)
+        pygame.display.update()
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    return
+#主程序
+pygame.init() 
+game = Game()  
+game.start()
+game.main()
